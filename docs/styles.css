@@ -35,81 +35,86 @@ html, body {
   user-select: none;
 }
 
-/* --- TOP HEADER (Editorial Portfolio Bar) --- */
+/* --- TOP HEADER (Minimalist Editorial Portfolio Bar) --- */
 .top-bar {
-  height: 58px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  background: rgba(229, 229, 226, 0.92);
-  backdrop-filter: blur(10px);
+  padding: 0 20px;
+  background: rgba(229, 229, 226, 0.95);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  z-index: 20;
+  z-index: 30;
+  gap: 14px;
 }
 
 .brand-group {
   display: flex;
   align-items: baseline;
-  gap: 16px;
+  gap: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .brand-name {
   font-family: var(--font-serif);
   font-weight: 800;
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   color: var(--klein-blue);
   letter-spacing: -0.03em;
-  cursor: pointer;
+  white-space: nowrap;
 }
 
 .brand-tag {
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ink-muted);
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.wasm-badge {
-  display: inline-flex;
+/* Floor Navigation Bar (Pills Strip) */
+.floor-nav-strip {
+  display: flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 0;
 }
 
-.wasm-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #22e584;
-  box-shadow: 0 0 8px #22e584;
-}
-
-.floor-Selector-nav {
-  display: flex;
-  gap: 6px;
+.floor-nav-strip::-webkit-scrollbar {
+  display: none;
 }
 
 .floor-pill {
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.65);
   color: var(--ink);
-  padding: 6px 12px;
+  padding: 6px 11px;
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.16s ease;
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.floor-pill .pill-time {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+}
+
+.floor-pill .pill-name {
+  font-weight: 700;
 }
 
 .floor-pill:hover {
@@ -121,7 +126,11 @@ html, body {
   background: var(--klein-blue);
   color: #fff;
   border-color: var(--klein-blue);
-  box-shadow: 0 4px 14px rgba(0, 24, 255, 0.28);
+  box-shadow: 0 3px 12px rgba(0, 24, 255, 0.25);
+}
+
+.floor-pill.active .pill-time {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .floor-pill.completed::after {
@@ -138,19 +147,21 @@ html, body {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn-editorial {
-  padding: 7px 14px;
+  padding: 6px 13px;
   border-radius: 8px;
   border: 1.5px solid var(--klein-blue);
   background: transparent;
   color: var(--klein-blue);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   cursor: pointer;
   transition: all 0.18s ease;
+  white-space: nowrap;
 }
 
 .btn-editorial:hover, .btn-editorial.primary {
@@ -160,6 +171,28 @@ html, body {
 
 .btn-editorial.primary:hover {
   background: #0011b8;
+}
+
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover {
+  border-color: var(--klein-blue);
+  color: var(--klein-blue);
+  background: #fff;
 }
 
 /* --- MAIN WORKSPACE LAYOUT --- */
@@ -631,12 +664,209 @@ html, body {
   height: 230px;
 }
 
-@media (max-width: 980px) {
-  .main-stage {
-    grid-template-columns: 1fr;
-    grid-template-rows: 52vh 1fr;
+/* --- RESPONSIVE & MOBILE REFINEMENT --- */
+@media (max-width: 900px) {
+  html, body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    user-select: auto;
   }
+
+  .top-bar {
+    height: auto;
+    padding: 10px 14px 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .brand-group {
+    order: 1;
+  }
+
+  .brand-name {
+    font-size: 1.45rem;
+  }
+
+  .brand-tag {
+    display: none;
+  }
+
+  .header-actions {
+    order: 2;
+    gap: 6px;
+  }
+
+  .btn-editorial {
+    padding: 5px 10px;
+    font-size: 0.74rem;
+  }
+
+  .btn-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .floor-nav-strip {
+    order: 3;
+    width: 100%;
+    padding: 4px 0 4px;
+    justify-content: flex-start;
+  }
+
+  .floor-pill {
+    padding: 5px 9px;
+    font-size: 0.7rem;
+    gap: 4px;
+  }
+
+  .floor-pill .pill-time {
+    display: none;
+  }
+
+  .main-stage {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 100px);
+  }
+
+  .main-stage.diorama-wide {
+    display: flex;
+  }
+
+  .main-stage.diorama-wide .lab-sidebar {
+    display: flex;
+  }
+
+  .diorama-viewport {
+    height: 44vh;
+    min-height: 260px;
+    max-height: 380px;
+    width: 100%;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  .diorama-hud-top {
+    top: 10px;
+    left: 10px;
+    gap: 8px;
+  }
+
+  .clock-card {
+    padding: 5px 10px;
+    border-radius: 8px;
+    gap: 6px;
+  }
+
+  .clock-time {
+    font-size: 0.95rem;
+  }
+
+  .clock-routine {
+    font-size: 0.7rem;
+  }
+
+  .progress-card {
+    padding: 5px 9px;
+    font-size: 0.7rem;
+    border-radius: 8px;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .lab-sidebar {
+    height: auto;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    flex: 1;
+    overflow-y: visible;
+  }
+
+  .lab-header {
+    padding: 16px 18px 12px;
+  }
+
+  .lab-title {
+    font-size: 1.6rem;
+  }
+
+  .lab-question {
+    font-size: 0.92rem;
+  }
+
+  .lab-stat-banner {
+    padding: 12px 18px;
+    gap: 12px;
+  }
+
+  .stat-big {
+    font-size: 1.8rem;
+  }
+
+  .stat-desc {
+    font-size: 0.76rem;
+  }
+
+  .minigame-box {
+    padding: 16px 18px;
+  }
+
+  .game-btn {
+    min-width: 90px;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+  }
+
+  .sidebar-gallery {
+    padding: 16px 18px 30px;
+  }
+
+  .hero-preview-card img {
+    height: 180px;
+  }
+
+  .thumb-strip {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .thumb-item {
+    height: 48px;
+  }
+
+  .dossier-modal {
+    width: 96vw;
+    max-height: 92vh;
+    border-radius: 12px;
+  }
+
+  .dossier-top {
+    padding: 14px 18px;
+  }
+
   .dossier-body {
+    padding: 18px;
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .phase-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .dossier-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dossier-gallery-grid img.wide, .dossier-gallery-grid img {
+    grid-column: span 1;
+    height: 180px;
   }
 }

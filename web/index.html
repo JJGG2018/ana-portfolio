@@ -9,34 +9,44 @@
 <body>
   <!-- CABECERA EDITORIAL INTERACTIVA -->
   <header class="top-bar">
-    <div class="brand-group">
-      <div class="brand-name" onclick="window.openDossierModal('manifesto')" title="Ver Manifiesto y Contacto de Ana Galilea">
-        Ana Galilea
-      </div>
-      <span class="brand-tag">Portfolio 2025 · Diseño de Producto</span>
-      <span class="wasm-badge" title="Motor de físicas y estado compilado en Rust a WebAssembly (wasm32-unknown-unknown)">
-        <span class="wasm-dot"></span> RUST + WASM ENGINE
-      </span>
+    <div class="brand-group" onclick="window.openDossierModal('manifesto')" title="Ver Manifiesto y Contacto de Ana Galilea">
+      <span class="brand-name">Ana Galilea</span>
+      <span class="brand-tag">Diseño de Producto · 2025</span>
     </div>
 
-    <!-- Navegador de las 5 Plantas del Edificio ("24 Horas con Ana") -->
-    <nav class="floor-Selector-nav" aria-label="Plantas del Edificio">
-      <button class="floor-pill active" onclick="selectFloor(0)">08:00 · 04 Cafeliko</button>
-      <button class="floor-pill" onclick="selectFloor(1)">09:30 · 00 Tacto</button>
-      <button class="floor-pill" onclick="selectFloor(2)">11:00 · 01 Tom VR</button>
-      <button class="floor-pill" onclick="selectFloor(3)">16:00 · 02 Focus</button>
-      <button class="floor-pill" onclick="selectFloor(4)">19:30 · 03 Chile</button>
+    <!-- Navegador de las 5 Plantas del Edificio (Desktop / Tablet) -->
+    <nav class="floor-nav-strip" aria-label="Plantas del Edificio">
+      <button class="floor-pill active" onclick="selectFloor(0)">
+        <span class="pill-time">08:00</span>
+        <span class="pill-name">04 Cafeliko</span>
+      </button>
+      <button class="floor-pill" onclick="selectFloor(1)">
+        <span class="pill-time">09:30</span>
+        <span class="pill-name">00 Tacto</span>
+      </button>
+      <button class="floor-pill" onclick="selectFloor(2)">
+        <span class="pill-time">11:00</span>
+        <span class="pill-name">01 Tom VR</span>
+      </button>
+      <button class="floor-pill" onclick="selectFloor(3)">
+        <span class="pill-time">16:00</span>
+        <span class="pill-name">02 Focus</span>
+      </button>
+      <button class="floor-pill" onclick="selectFloor(4)">
+        <span class="pill-time">19:30</span>
+        <span class="pill-name">03 Chile</span>
+      </button>
     </nav>
 
     <div class="header-actions">
-      <button class="btn-editorial" id="fullscreenBtn" onclick="window.toggleFullscreen()" title="Alternar Pantalla Completa (F)">
-        ⛶ Pantalla Completa
-      </button>
-      <button class="btn-editorial" onclick="window.openDossierModal('manifesto')">
-        Sobre Ana / Contacto
+      <button class="btn-editorial hide-mobile" onclick="window.openDossierModal('manifesto')">
+        Sobre Ana
       </button>
       <button class="btn-editorial primary" onclick="window.openDossierModal('project')">
-        📋 Abrir Dossier Técnico
+        📋 Dossier
+      </button>
+      <button class="btn-icon" id="fullscreenBtn" onclick="window.toggleFullscreen()" title="Alternar Pantalla Completa (F)" aria-label="Pantalla Completa">
+        <svg class="icon-fs" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
       </button>
     </div>
   </header>
@@ -47,13 +57,10 @@
     <section class="diorama-viewport">
       <canvas id="dioramaCanvas"></canvas>
 
-      <!-- Botones flotantes HUD Superior Derecho -->
-      <div class="diorama-hud-controls">
+      <!-- Botones flotantes HUD Superior Derecho (Solo desktop) -->
+      <div class="diorama-hud-controls hide-mobile">
         <button class="hud-pill-btn" onclick="window.toggleDioramaWide()" id="expandDioramaBtn" title="Expandir vista completa del edificio">
           ⇲ Expandir Diorama
-        </button>
-        <button class="hud-pill-btn" onclick="window.toggleFullscreen()" id="hudFsBtn" title="Pantalla Completa (F)">
-          ⛶ Pantalla Completa
         </button>
       </div>
 
@@ -64,15 +71,15 @@
           <span class="clock-routine" id="hudClockRoutine">La Cocina</span>
         </div>
         <div class="progress-card" id="globalProgressText">
-          0/5 Experiencias Completadas
+          0/5 Hecho
         </div>
       </div>
 
-      <!-- HUD Inferior: Guía de Controles del Juego -->
-      <div class="diorama-controls-hint">
-        <span><span class="kbd">Clic en Planta</span> Caminar / Interactuar</span>
-        <span><span class="kbd">W</span> <span class="kbd">S</span> o <span class="kbd">↑</span> <span class="kbd">↓</span> Cambiar Planta</span>
-        <span><span class="kbd">A</span> <span class="kbd">D</span> Mover a Ana</span>
+      <!-- HUD Inferior: Guía de Controles del Juego (Solo desktop) -->
+      <div class="diorama-controls-hint hide-mobile">
+        <span><span class="kbd">Clic</span> Caminar</span>
+        <span><span class="kbd">W</span> <span class="kbd">S</span> Planta</span>
+        <span><span class="kbd">A</span> <span class="kbd">D</span> Mover</span>
         <span><span class="kbd">F</span> Pantalla Completa</span>
       </div>
     </section>
