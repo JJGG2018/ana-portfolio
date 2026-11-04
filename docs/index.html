@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ana Galilea · 24 Horas en Diseño de Producto (Rust + WASM)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- CABECERA EDITORIAL INTERACTIVA -->
+  <header class="top-bar">
+    <div class="brand-group">
+      <div class="brand-name" onclick="window.openDossierModal('manifesto')" title="Ver Manifiesto y Contacto de Ana Galilea">
+        Ana Galilea
+      </div>
+      <span class="brand-tag">Portfolio 2025 · Diseño de Producto</span>
+      <span class="wasm-badge" title="Motor de físicas y estado compilado en Rust a WebAssembly (wasm32-unknown-unknown)">
+        <span class="wasm-dot"></span> RUST + WASM ENGINE
+      </span>
+    </div>
+
+    <!-- Navegador de las 5 Plantas del Edificio ("24 Horas con Ana") -->
+    <nav class="floor-Selector-nav" aria-label="Plantas del Edificio">
+      <button class="floor-pill active" onclick="selectFloor(0)">08:00 · 04 Cafeliko</button>
+      <button class="floor-pill" onclick="selectFloor(1)">09:30 · 00 Tacto</button>
+      <button class="floor-pill" onclick="selectFloor(2)">11:00 · 01 Tom VR</button>
+      <button class="floor-pill" onclick="selectFloor(3)">16:00 · 02 Focus</button>
+      <button class="floor-pill" onclick="selectFloor(4)">19:30 · 03 Chile</button>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-editorial" onclick="window.openDossierModal('manifesto')">
+        Sobre Ana / Contacto
+      </button>
+      <button class="btn-editorial primary" onclick="window.openDossierModal('project')">
+        📋 Abrir Dossier Técnico
+      </button>
+    </div>
+  </header>
+
+  <!-- ESCENARIO PRINCIPAL: DIORAMA 2.5D (IZQUIERDA) + LABORATORIO JUGABLE (DERECHA) -->
+  <main class="main-stage">
+    <!-- Visor del Edificio Seccionado en Tiempo Real -->
+    <section class="diorama-viewport">
+      <canvas id="dioramaCanvas"></canvas>
+
+      <!-- HUD Superior: Reloj de Rutina Cotidiana + Progreso -->
+      <div class="diorama-hud-top">
+        <div class="clock-card">
+          <span class="clock-time" id="hudClockTime">08:00</span>
+          <span class="clock-routine" id="hudClockRoutine">La Cocina</span>
+        </div>
+        <div class="progress-card" id="globalProgressText">
+          0/5 Experiencias Completadas
+        </div>
+      </div>
+
+      <!-- HUD Inferior: Guía de Controles del Juego -->
+      <div class="diorama-controls-hint">
+        <span><span class="kbd">Clic en Planta</span> Caminar / Interactuar</span>
+        <span><span class="kbd">W</span> <span class="kbd">S</span> o <span class="kbd">↑</span> <span class="kbd">↓</span> Subir/Bajar Escalera</span>
+        <span><span class="kbd">A</span> <span class="kbd">D</span> Mover a Ana</span>
+      </div>
+    </section>
+
+    <!-- Panel Lateral: Mini-Juego del Proyecto Activo + Galería Extraída del PDF -->
+    <aside class="lab-sidebar">
+      <div class="lab-header">
+        <div class="lab-breadcrumbs">
+          <span class="lab-project-num" id="labNum">04 · Producto, packaging, servicio</span>
+          <span id="labCode">//Cafeliko</span>
+        </div>
+        <h1 class="lab-title" id="labTitle">Cafeliko</h1>
+        <p class="lab-question" id="labQuestion">¿Se podrían crear grados de cafeína?</p>
+      </div>
+
+      <div class="lab-stat-banner">
+        <div class="stat-big" id="labStatBig">55%</div>
+        <div class="stat-desc" id="labStatDesc">
+          de usuarios reportan: «No bebo café por la tarde porque no me deja dormir».
+        </div>
+      </div>
+
+      <!-- Controles Interactivos del Mini-Juego en Rust/WASM -->
+      <div class="minigame-box" id="minigameContent"></div>
+
+      <!-- Galería de Renders Reales Extraídos del Portfolio de Ana -->
+      <div class="sidebar-gallery">
+        <div class="sidebar-section-label">Láminas y Prototipos del Proyecto</div>
+        <div class="hero-preview-card" onclick="window.openDossierModal('project')" style="cursor:pointer;" title="Haz clic para ampliar el Dossier Técnico">
+          <img id="sidebarHeroImg" src="assets/portfolio/cafeliko_kitchen.jpg" alt="Vista del proyecto" />
+        </div>
+        <p id="sidebarHeroCaption" style="font-size:0.74rem; color:var(--ink-muted); margin-bottom:10px;"></p>
+
+        <div class="thumb-strip" id="sidebarThumbStrip"></div>
+
+        <p class="project-summary-text" id="labSummary"></p>
+
+        <button class="btn-editorial primary" style="width:100%; padding:10px;" onclick="window.openDossierModal('project')">
+          Ver Investigación · Proceso · Desarrollo · Producto →
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- MODAL DOSSIER TÉCNICO / MANIFIESTO (MODO RECLUTADOR / ESTUDIO) -->
+  <div class="modal-backdrop" id="dossierModalBackdrop" onclick="if(event.target===this) window.closeDossierModal()">
+    <div class="dossier-modal">
+      <div class="dossier-top">
+        <strong id="dossierModalTitle" style="font-size:0.95rem;">Dossier Técnico del Proyecto</strong>
+        <button class="btn-editorial" onclick="window.closeDossierModal()">✕ Cerrar (Esc)</button>
+      </div>
+      <div class="dossier-body" id="dossierModalContent"></div>
+    </div>
+  </div>
+
+  <script src="wasm_bundle.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

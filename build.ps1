@@ -28,6 +28,7 @@ if (-not (Test-Path "$SysrootLib\libcompiler_builtins.rlib")) {
 }
 
 New-Item -ItemType Directory -Force -Path "web" | Out-Null
+New-Item -ItemType Directory -Force -Path "docs" | Out-Null
 
 # Copiar el enlazador rust-lld al sysroot local para que rustc lo invoque directamente
 $HostBinDir = "target\sysroot\lib\rustlib\x86_64-pc-windows-msvc\bin"
@@ -42,8 +43,17 @@ rustc --edition=2021 --crate-type cdylib -C opt-level=z -C lto=fat -C panic=abor
     --sysroot "target\sysroot" `
     src\lib.rs -o web\ana_portfolio.wasm
 
+Copy-Item "web\ana_portfolio.wasm" "docs\ana_portfolio.wasm" -Force
+
 $WasmBytes = [System.IO.File]::ReadAllBytes("$PWD\web\ana_portfolio.wasm")
 $WasmBase64 = [Convert]::ToBase64String($WasmBytes)
-Set-Content -Path "web\wasm_bundle.js" -Value "// Auto-generado por build.ps1 a partir de web/ana_portfolio.wasm ($($WasmBytes.Length) bytes)`nwindow.ANA_WASM_BASE64 = '$WasmBase64';" -Encoding UTF8
+$bundleContent = "// Auto-generado por build.ps1 a partir de web/ana_portfolio.wasm ($($WasmBytes.Length) bytes)`nwindow.ANA_WASM_BASE64 = '$WasmBase64';"
+Set-Content -Path "web\wasm_bundle.js" -Value $bundleContent -Encoding UTF8
+Set-Content -Path "docs\wasm_bundle.js" -Value $bundleContent -Encoding UTF8
 
-Write-Host "==> ¡Compilación exitosa! web\ana_portfolio.wasm ($($WasmBytes.Length) bytes) + web\wasm_bundle.js listos." -ForegroundColor Green
+Copy-Item "web\index.html" "docs\index.html" -Force
+Copy-Item "web\styles.css" "docs\styles.css" -Force
+Copy-Item "web\game.js" "docs\game.js" -Force
+Copy-Item "web\assets" "docs\assets" -Recurse -Force
+
+Write-Host "==> ¡Compilación exitosa! web\ y docs\ actualizados ($($WasmBytes.Length) bytes) listos para GitHub Pages." -ForegroundColor Green
