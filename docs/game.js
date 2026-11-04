@@ -199,6 +199,7 @@ function selectFloor(floorIdx) {
   renderSidebar(floorIdx);
   updateTopNav(floorIdx);
 }
+window.selectFloor = selectFloor;
 
 function updateTopNav(activeFloor) {
   const mask = wasm ? wasm.get_completed_mask() : 0;
@@ -275,33 +276,33 @@ function renderMinigameControls(floorIdx) {
     const grade = wasm.get_cafeliko_grade();
     const step = wasm.get_cafeliko_step();
     const stepNames = [
-      "Pulsa el paso 1 para empezar el ritual Cafeliko",
+      "Pulsa para iniciar el ritual limpio de Cafeliko",
       "1/6 · Cafetera italiana desenroscada",
-      "2/6 · Dosis arrancada de la tira dispensadora",
+      "2/6 · Dosis de cafeína arrancada de la tira",
       "3/6 · Dosis limpia introducida en el filtro",
-      "4/6 · Base llena de agua",
-      "5/6 · Infusionando al fuego (3 min)...",
-      "6/6 · ¡Cafeliko listo sin ensuciar nada!",
+      "4/6 · Base llena de agua y cafetera enroscada",
+      "5/6 · Infusionando al fuego sin ensuciar la encimera...",
+      "6/6 · ¡Cafeliko servido y listo para disfrutar!",
     ];
     container.innerHTML = `
       <div class="minigame-header">
-        <span class="minigame-badge">Laboratorio Cafeliko · 08:00 AM</span>
-        <span class="minigame-status">${step === 6 ? "✓ ¡Café servido!" : `Paso ${step}/6`}</span>
+        <span class="minigame-badge">Planta 0 · 08:00 AM · La Cocina</span>
+        <span class="minigame-status" id="cafelikoStatusBadge">${step === 6 ? "✓ ¡Café servido!" : step === 5 ? "⏳ Calentando..." : `Paso ${step}/6`}</span>
       </div>
-      <p style="font-size:0.8rem; color:#333; margin-bottom:8px;">
-        <strong>1. Elige el grado de cafeína:</strong>
+      <p style="font-size:0.8rem; color:#222; margin-bottom:8px;">
+        <strong>1. Selecciona el grado de cafeína deseado:</strong>
       </p>
       <div class="game-btn-row">
-        <button class="game-btn ${grade === 0 ? "active" : ""}" onclick="window.handleCafelikoGrade(0)">●○○ LIGHT</button>
-        <button class="game-btn ${grade === 1 ? "active" : ""}" onclick="window.handleCafelikoGrade(1)">●●○ CLASSICO</button>
-        <button class="game-btn ${grade === 2 ? "active" : ""}" onclick="window.handleCafelikoGrade(2)">●●● SUPER</button>
+        <button class="game-btn ${grade === 0 ? "active" : ""}" onclick="window.handleCafelikoGrade(0)">●○○ LIGHT (Suave)</button>
+        <button class="game-btn ${grade === 1 ? "active" : ""}" onclick="window.handleCafelikoGrade(1)">●●○ CLASSICO (Equilibrado)</button>
+        <button class="game-btn ${grade === 2 ? "active" : ""}" onclick="window.handleCafelikoGrade(2)">●●● SUPER (Intenso)</button>
       </div>
-      <p style="font-size:0.8rem; color:#333; margin:12px 0 6px;">
-        <strong>2. Ritual de preparación:</strong> ${stepNames[step]}
+      <p style="font-size:0.8rem; color:#222; margin:12px 0 6px;">
+        <strong>2. Ritual de preparación limpia:</strong> ${stepNames[step]}
       </p>
       <div class="game-btn-row">
         <button class="game-btn" style="background:var(--klein-blue); color:#fff; border-color:var(--klein-blue);" onclick="window.handleCafelikoStep()">
-          ${step === 0 ? "▶ Iniciar Ritual (Paso 1)" : step < 5 ? `▶ Siguiente Paso (${step + 1}/6)` : step === 5 ? "⏳ Calentando en el diorama..." : "↻ Preparar otra taza"}
+          ${step === 0 ? "▶ Iniciar Ritual (Paso 1/6)" : step < 5 ? `▶ Siguiente Paso (${step + 1}/6)` : step === 5 ? "⏳ Infusionando en el diorama..." : "↻ Preparar otra taza"}
         </button>
       </div>
     `;
@@ -322,16 +323,19 @@ function renderMinigameControls(floorIdx) {
 
     container.innerHTML = `
       <div class="minigame-header">
-        <span class="minigame-badge">Kiosco Tacto · 09:30 AM</span>
-        <span class="minigame-status">${rajoyFound || wordsMask === 15 ? "✓ Tregua visual lograda" : "No hagas scroll. Pasa página."}</span>
+        <span class="minigame-badge">Planta 1 · 09:30 AM · Kiosco Urbano</span>
+        <span class="minigame-status">${rajoyFound || wordsMask === 15 ? "✓ Tregua visual conseguida" : "«No hagas scroll. Pasa página.»"}</span>
       </div>
+      <p style="font-size:0.8rem; color:#222; margin-bottom:8px;">
+        <strong>1. Interactúa con el soporte físico:</strong>
+      </p>
       <div class="game-btn-row" style="margin-bottom:10px;">
         <button class="game-btn ${isOpen ? "active" : ""}" onclick="window.handleTactoToggle()">
-          ${isOpen ? "📖 Periódico Abierto (Devolver al buzón)" : "📰 Sacar Periódico Físico del Buzón"}
+          ${isOpen ? "📖 Periódico Desplegado (Guardar en buzón)" : "📰 Sacar Periódico Físico del Buzón"}
         </button>
       </div>
       <p style="font-size:0.79rem; font-weight:700; color:var(--klein-blue); margin-bottom:6px;">
-        ${pageTitles[page]}
+        <strong>2. Hojea la publicación:</strong> ${pageTitles[page]}
       </p>
       <div class="game-btn-row">
         <button class="game-btn" onclick="window.handleTactoPage(-1)">← Pág. Anterior</button>
@@ -339,7 +343,7 @@ function renderMinigameControls(floorIdx) {
       </div>
       <div style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border);">
         <p style="font-size:0.76rem; color:#444; margin-bottom:6px;">
-          <strong>Pasatiempos reales del periódico:</strong> Marca las palabras de jerga en la sopa de letras o localiza a Mariano Rajoy en la playa:
+          <strong>Pasatiempos en papel prensa:</strong> Busca jerga juvenil o localiza a Mariano Rajoy:
         </p>
         <div class="word-pills">
           ${words
@@ -349,7 +353,7 @@ function renderMinigameControls(floorIdx) {
             )
             .join("")}
           <span class="word-pill ${rajoyFound ? "found" : ""}" onclick="window.handleTactoRajoy()">
-            ${rajoyFound ? "✓ ¡Mariano Rajoy encontrado!" : "🔍 Encontrar a Mariano Rajoy"}
+            ${rajoyFound ? "✓ ¡Rajoy encontrado!" : "🔍 Buscar a Mariano Rajoy"}
           </span>
         </div>
       </div>
@@ -360,18 +364,18 @@ function renderMinigameControls(floorIdx) {
     const level = wasm.get_tom_unlocked_level();
     container.innerHTML = `
       <div class="minigame-header">
-        <span class="minigame-badge">Onboarding VR · 11:00 AM</span>
-        <span class="minigame-status">${count}/9 Ítems · Nivel ${level}/3</span>
+        <span class="minigame-badge">Planta 2 · 11:00 AM · Oficina Telefónica</span>
+        <span class="minigame-status">${count}/9 Ítems Recogidos · Nivel ${level}/3</span>
       </div>
-      <p style="font-size:0.8rem; color:#333; margin-bottom:8px;">
-        Camina con Ana por la planta (haciendo clic en el edificio) o pulsa aquí para que <strong>Tom</strong> te entregue los ítems formativos de Telefónica (Tarjeta Abril García, Canal de Teams, Atención al Usuario):
+      <p style="font-size:0.8rem; color:#222; margin-bottom:8px;">
+        <strong>1. Explora el Onboarding en Realidad Virtual:</strong> Haz clic en el diorama para mover a Ana o pulsa para recoger los ítems formativos con Tom:
       </p>
       <div class="game-btn-row">
         <button class="game-btn" style="background:var(--tom-orange); color:#fff; border-color:var(--tom-orange);" onclick="window.handleTomNextItem()">
           ${count < 9 ? `🟠 Recoger Ítem de Telefónica (${count + 1}/9)` : "✓ ¡9/9 Ítems Completados!"}
         </button>
         <button class="game-btn" onclick="window.handleTomQuiz()">
-          🎓 Superar Test de Planta
+          🎓 Superar Test de Bienvenida
         </button>
       </div>
     `;
@@ -382,22 +386,22 @@ function renderMinigameControls(floorIdx) {
     const secs = Math.ceil(wasm.get_focus_pomodoro_secs());
     const mins = String(Math.floor(secs / 60)).padStart(2, "0");
     const remS = String(secs % 60).padStart(2, "0");
-    const stageNames = ["0 · Disco plegado portátil", "1 · Aros de fibra de vidrio desplegándose", "2 · Cabina Focus instalada en mesa"];
+    const stageNames = ["0 · Disco plegado portátil", "1 · Varillas Pop-Up abriéndose", "2 · Cabina Pop-Up desplegada"];
 
     container.innerHTML = `
       <div class="minigame-header">
-        <span class="minigame-badge">Cabina Focus · 04:00 PM</span>
+        <span class="minigame-badge">Planta 3 · 04:00 PM · El Estudio</span>
         <span class="minigame-status" id="focusTimerBadge">${locked ? `⏱ Pomodoro ${mins}:${remS}` : stageNames[stage]}</span>
       </div>
-      <p style="font-size:0.8rem; color:#333; margin-bottom:8px;">
-        Despliega el mecanismo <strong>Pop-Up</strong> de fibra de vidrio y guarda el smartphone en el <strong>Bolsillo Focus</strong> para bloquear las notificaciones durante 20 minutos:
+      <p style="font-size:0.8rem; color:#222; margin-bottom:8px;">
+        <strong>1. Mecanismo Pop-Up y bloqueo de notificaciones:</strong> Despliega la cabina y guarda el móvil en el Bolsillo Focus:
       </p>
       <div class="game-btn-row">
         <button class="game-btn ${stage === 2 ? "active" : ""}" onclick="window.handleFocusPopup()">
           🔄 Mecanismo Pop-Up (Fase ${stage}/2)
         </button>
         <button class="game-btn ${locked ? "active" : ""}" style="${locked ? "background:var(--focus-green); border-color:var(--focus-green); color:#fff;" : ""}" onclick="window.handleFocusLock()">
-          ${locked ? "🔒 Móvil Bloqueado (Modo Zen Activo)" : "📵 Meter Móvil en Bolsillo Focus"}
+          ${locked ? "🔒 Móvil Bloqueado (Modo Concentración)" : "📵 Guardar Móvil en Bolsillo Focus"}
         </button>
       </div>
     `;
@@ -410,18 +414,18 @@ function renderMinigameControls(floorIdx) {
     }
     container.innerHTML = `
       <div class="minigame-header">
-        <span class="minigame-badge">Azotea Chile · 07:30 PM</span>
-        <span class="minigame-status">${grownCount}/8 Brotes Germinados</span>
+        <span class="minigame-badge">Planta 4 · 07:30 PM · La Azotea</span>
+        <span class="minigame-status" id="chileSproutsBadge">${grownCount}/8 Brotes Germinados</span>
       </div>
-      <p style="font-size:0.8rem; color:#333; margin-bottom:8px;">
-        Haz clic en el cielo de la azotea para guiar el vuelo del ave <strong>«fío-fío»</strong> (<em>Elaenia albiceps</em>) hacia los 3 refugios biodegradables o inspecciona las 3 capas del sistema:
+      <p style="font-size:0.8rem; color:#222; margin-bottom:8px;">
+        <strong>1. Dispersión natural con el ave «fío-fío» (<em>Elaenia albiceps</em>):</strong> Haz clic en el cielo de la azotea o atrae al ave hacia los refugios biodegradables:
       </p>
       <div class="game-btn-row">
         <button class="game-btn" style="background:var(--chile-clay); color:#fff; border-color:var(--chile-clay);" onclick="window.handleChileWater()">
-          🐦 Atraer al Fío-Fío y Germinar Semillas
+          🐦 Atraer Ave y Germinar Semillas
         </button>
         <button class="game-btn ${exploded ? "active" : ""}" onclick="window.handleChileExplode()">
-          ${exploded ? "⬇ Ensamblar Capas en Cubierta" : " layers ⬆ Vista Explosionada (3 Capas)"}
+          ${exploded ? "⬇ Ensamblar Capas en Azotea" : "⬆ Vista Explosionada (3 Capas)"}
         </button>
       </div>
     `;
@@ -508,6 +512,81 @@ window.openDossierModal = (mode = "project") => {
   const bodyEl = document.getElementById("dossierModalContent");
   modal.classList.add("open");
 
+  if (mode === "help") {
+    titleEl.textContent = "Guía: ¿En qué consiste este Portfolio Jugable?";
+    bodyEl.innerHTML = `
+      <div style="grid-column: span 2;">
+        <h2 style="font-family:var(--font-serif); font-size:1.85rem; color:var(--klein-blue); margin-bottom:12px; line-height:1.15;">
+          24 Horas con el Diseño de Producto de Ana Galilea
+        </h2>
+        <p style="font-size:1.02rem; line-height:1.68; color:#1c1e22; margin-bottom:18px;">
+          Este portfolio no es una galería estática de fotos: es un <strong>edificio interactivo</strong> en sección arquitectónica. Cada una de sus 5 plantas representa una hora del día (de 08:00 a 19:30) y un <strong>problema cotidiano real</strong> que Ana abordó mediante el diseño de producto, servicios o experiencias tangibles.
+        </p>
+
+        <div class="phase-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-bottom:24px;">
+          <div class="phase-card" style="border-left: 4px solid var(--cafeliko-classico);">
+            <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-muted); font-weight:700;">PLANTA 0 · 08:00 AM</div>
+            <h4 style="font-size:1.05rem; margin:4px 0 6px;">04. Cafeliko · La Cocina</h4>
+            <p style="font-size:0.84rem; line-height:1.5;">
+              <strong>Problema:</strong> 55% de usuarios no toman café por la tarde por miedo al insomnio, y preparar la cafetera italiana tradicional ensucia.<br>
+              <strong>Solución de Ana:</strong> Monodosis solubles pre-compactadas en tira dispensadora con 3 grados exactos de cafeína (Light, Classico, Super).
+            </p>
+          </div>
+
+          <div class="phase-card" style="border-left: 4px solid var(--klein-blue);">
+            <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-muted); font-weight:700;">PLANTA 1 · 09:30 AM</div>
+            <h4 style="font-size:1.05rem; margin:4px 0 6px;">00. Tacto · El Kiosco Urbano</h4>
+            <p style="font-size:0.84rem; line-height:1.5;">
+              <strong>Problema:</strong> 63% de jóvenes sufre saturación y fatiga por scroll compulsivo en redes sociales.<br>
+              <strong>Solución de Ana:</strong> Periódico físico de edición limitada con cultura digital, memes y pasatiempos, más buzón urbano cannage. «No hagas scroll. Pasa página.»
+            </p>
+          </div>
+
+          <div class="phase-card" style="border-left: 4px solid var(--tom-orange);">
+            <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-muted); font-weight:700;">PLANTA 2 · 11:00 AM</div>
+            <h4 style="font-size:1.05rem; margin:4px 0 6px;">01. Telefónica con Tom · Oficina</h4>
+            <p style="font-size:0.84rem; line-height:1.5;">
+              <strong>Problema:</strong> 75% de nuevos empleados se siente solo o abrumado durante su incorporación a una gran corporación.<br>
+              <strong>Solución de Ana:</strong> Experiencia de Realidad Virtual donde el avatar «Tom» guía al usuario por una maqueta interactiva recolectando los 9 ítems formativos.
+            </p>
+          </div>
+
+          <div class="phase-card" style="border-left: 4px solid var(--focus-green);">
+            <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-muted); font-weight:700;">PLANTA 3 · 16:00 PM</div>
+            <h4 style="font-size:1.05rem; margin:4px 0 6px;">02. Focus · El Estudio</h4>
+            <p style="font-size:0.84rem; line-height:1.5;">
+              <strong>Problema:</strong> Las notificaciones del móvil fragmentan la concentración en bibliotecas y mesas de trabajo.<br>
+              <strong>Solución de Ana:</strong> Cabina portátil Pop-Up con estructura de fibra de vidrio y «Bolsillo Focus» que bloquea físicamente el smartphone en ciclos Pomodoro.
+            </p>
+          </div>
+
+          <div class="phase-card" style="border-left: 4px solid var(--chile-clay);">
+            <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-muted); font-weight:700;">PLANTA 4 · 19:30 PM</div>
+            <h4 style="font-size:1.05rem; margin:4px 0 6px;">03. Chile · La Azotea</h4>
+            <p style="font-size:0.84rem; line-height:1.5;">
+              <strong>Problema:</strong> 75% de emisiones provienen de combustibles fósiles, incluyendo el transporte y distribución agrícola.<br>
+              <strong>Solución de Ana:</strong> Cubierta verde con refugios biodegradables que atraen al ave «fío-fío» para dispersar semillas de chile naturalmente sin transporte contaminante.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="font-family:var(--font-serif); font-size:1.3rem; margin-bottom:10px;">¿Cómo interactuar con el portfolio?</h3>
+        <ul style="font-size:0.92rem; line-height:1.7; padding-left:20px; color:#333; margin-bottom:20px;">
+          <li><strong>Moverte por el edificio:</strong> Puedes pulsar las plantas en el menú superior (08:00 a 19:30), hacer clic directamente en cualquier planta del dibujo, o usar las teclas <span class="kbd">W</span> / <span class="kbd">S</span> / <span class="kbd">A</span> / <span class="kbd">D</span>.</li>
+          <li><strong>Probar los productos:</strong> En el panel derecho («Laboratorio»), acciona los controles interactivos para ver en directo cómo funciona cada objeto en el diorama.</li>
+          <li><strong>Ver el trabajo real:</strong> Pulsa el botón <strong>«📋 Dossier»</strong> o haz clic en las imágenes para ver las fotos reales, bocetos de proceso y planos técnicos extraídos del portfolio original de Ana.</li>
+        </ul>
+
+        <div style="text-align:right;">
+          <button class="btn-editorial primary" onclick="window.closeDossierModal()">
+            ¡Entendido, volver a la experiencia!
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   if (mode === "manifesto") {
     titleEl.textContent = "Ana Galilea · Manifiesto y Contacto (Diseño de Producto 2025)";
     bodyEl.innerHTML = `
@@ -593,6 +672,20 @@ window.openDossierModal = (mode = "project") => {
 
 window.closeDossierModal = () => {
   document.getElementById("dossierModalBackdrop").classList.remove("open");
+};
+
+window.openHelpModal = () => {
+  window.openDossierModal("help");
+};
+
+window.dismissWelcomeGuide = () => {
+  const card = document.getElementById("welcomeGuideCard");
+  if (card) {
+    card.classList.add("dismissed");
+    try {
+      sessionStorage.setItem("ana_guide_dismissed", "1");
+    } catch (_) {}
+  }
 };
 
 // ============================================================================
@@ -898,6 +991,47 @@ function drawDiorama(ctx, width, height) {
   }
 }
 
+function drawInteractiveBeacon(ctx, x, y, label, color = "#0018ff") {
+  const t = performance.now() / 1000;
+  const pulse = Math.sin(t * 3.5) * 0.5 + 0.5;
+
+  ctx.save();
+  // Halo pulsante
+  ctx.fillStyle = color;
+  ctx.globalAlpha = 0.25 + pulse * 0.35;
+  ctx.beginPath();
+  ctx.arc(x, y, 7 + pulse * 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.globalAlpha = 1.0;
+  ctx.beginPath();
+  ctx.arc(x, y, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Etiqueta flotante con borde sutil
+  ctx.font = "700 9px 'Plus Jakarta Sans', sans-serif";
+  const metrics = ctx.measureText(label);
+  const pw = metrics.width + 12;
+  const ph = 17;
+  const px = x - pw / 2;
+  const py = y - 24;
+
+  ctx.fillStyle = "rgba(18, 19, 22, 0.90)";
+  ctx.beginPath();
+  ctx.roundRect(px, py, pw, ph, 4);
+  ctx.fill();
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(label, x, py + ph / 2);
+  ctx.restore();
+}
+
 function drawFloorInterior(ctx, floor, rx, ry, rw, rh, t) {
   if (floor === 0) {
     // PLANTA 0: COCINA CAFELIKO (Encimera, 3 cilindros dispensadores y Cafetera Italiana)
@@ -969,6 +1103,9 @@ function drawFloorInterior(ctx, floor, rx, ry, rw, rh, t) {
     ctx.closePath();
     ctx.fill();
 
+    // Indicador visual interactivo sobre la cafetera
+    drawInteractiveBeacon(ctx, mokaX, mokaY - 58, "☕ Cafetera Cafeliko", "#c98859");
+
     // Etiqueta de estado
     ctx.fillStyle = "#121316";
     ctx.font = "700 11px 'Plus Jakarta Sans', sans-serif";
@@ -1018,6 +1155,9 @@ function drawFloorInterior(ctx, floor, rx, ry, rw, rh, t) {
     ctx.font = "800 6px sans-serif";
     ctx.fillText("TACTO", -5, -4);
     ctx.restore();
+
+    // Indicador visual interactivo sobre el buzón cannage
+    drawInteractiveBeacon(ctx, rackX, rackY - 18, "📰 Buzón Tacto", "#0018ff");
 
     // Si el periódico está abierto, mostrar doble página desplegada
     if (isOpen) {
@@ -1110,6 +1250,9 @@ function drawFloorInterior(ctx, floor, rx, ry, rw, rh, t) {
     ctx.fill();
     ctx.restore();
 
+    // Indicador visual interactivo sobre el asistente virtual Tom
+    drawInteractiveBeacon(ctx, tx, ty - 34, "🟠 Asistente Tom VR", "#ff7a1a");
+
     ctx.fillStyle = "#ffffff";
     ctx.font = "700 11px 'Plus Jakarta Sans', sans-serif";
     ctx.textAlign = "left";
@@ -1182,6 +1325,9 @@ function drawFloorInterior(ctx, floor, rx, ry, rw, rh, t) {
     }
     ctx.restore();
 
+    // Indicador visual interactivo sobre la cabina Focus
+    drawInteractiveBeacon(ctx, deskX, deskY - 65, "🔒 Cabina Focus", "#1f9d62");
+
     ctx.fillStyle = "#121316";
     ctx.font = "700 11px 'Plus Jakarta Sans', sans-serif";
     ctx.textAlign = "left";
@@ -1244,6 +1390,9 @@ function drawFloorInterior(ctx, floor, rx, ry, rw, rh, t) {
       ctx.arc(sx - 3, sy - 13, 8, 0, Math.PI * 2);
       ctx.fill();
     });
+
+    // Indicador visual interactivo sobre los refugios de la azotea
+    drawInteractiveBeacon(ctx, rx + rw * 0.50, sy - 38, "🐦 Refugios Chile", "#b04e36");
 
     // Dibujar al ave "fío-fío" (Elaenia albiceps) en vuelo sobre la azotea
     const bx = rx + birdX * rw;
@@ -1360,11 +1509,21 @@ async function startApp() {
     }
   });
 
-  // Render inicial en Planta 2 (Telefónica con Tom, el corazón del edificio) o Planta 0 (08:00 AM)
+  // Comprobar si el usuario ya cerró la guía de bienvenida en esta sesión
+  try {
+    if (sessionStorage.getItem("ana_guide_dismissed") === "1") {
+      const card = document.getElementById("welcomeGuideCard");
+      if (card) card.classList.add("dismissed");
+    }
+  } catch (_) {}
+
+  // Render inicial en Planta 0 (08:00 AM)
   selectFloor(0);
 
   let lastTime = performance.now();
-  let uiTickCounter = 0;
+  let lastCafelikoStep = -1;
+  let lastFocusSecs = -1;
+  let lastGrownCount = -1;
 
   function frame(now) {
     const dt = (now - lastTime) / 1000;
@@ -1374,13 +1533,44 @@ async function startApp() {
     const rect = canvas.parentElement.getBoundingClientRect();
     drawDiorama(ctx, rect.width, rect.height);
 
-    // Actualizar contadores en vivo (ej. temporizador Pomodoro o ebullición de Cafeliko)
-    uiTickCounter++;
-    if (uiTickCounter % 15 === 0) {
-      const af = wasm.get_target_floor();
-      if (af === 0 || af === 2 || af === 3 || af === 4) {
-        renderMinigameControls(af);
-        updateTopNav(af);
+    // Actualizaciones dinámicas ligeras de texto SIN destruir el DOM:
+    const af = wasm.get_target_floor();
+    if (af === 0) {
+      const curStep = wasm.get_cafeliko_step();
+      if (curStep !== lastCafelikoStep) {
+        lastCafelikoStep = curStep;
+        renderMinigameControls(0);
+        updateTopNav(0);
+      } else if (curStep === 5) {
+        const brew = wasm.get_cafeliko_brew_progress();
+        const badge = document.getElementById("cafelikoStatusBadge");
+        if (badge) badge.textContent = `🔥 Infusionando (${Math.round(brew * 100)}%)...`;
+      }
+    } else if (af === 3) {
+      const locked = wasm.get_focus_phone_locked() === 1;
+      if (locked) {
+        const secs = Math.ceil(wasm.get_focus_pomodoro_secs());
+        if (secs !== lastFocusSecs) {
+          lastFocusSecs = secs;
+          const mins = String(Math.floor(secs / 60)).padStart(2, "0");
+          const remS = String(secs % 60).padStart(2, "0");
+          const timerEl = document.getElementById("focusTimerBadge");
+          if (timerEl) {
+            timerEl.textContent = `⏱ Pomodoro ${mins}:${remS}`;
+          }
+        }
+      }
+    } else if (af === 4) {
+      let grownCount = 0;
+      for (let i = 0; i < 8; i++) {
+        if (wasm.get_chile_sprout(i) > 0.7) grownCount++;
+      }
+      if (grownCount !== lastGrownCount) {
+        lastGrownCount = grownCount;
+        const statusEl = document.getElementById("chileSproutsBadge");
+        if (statusEl) {
+          statusEl.textContent = `${grownCount}/8 Brotes Germinados`;
+        }
       }
     }
 

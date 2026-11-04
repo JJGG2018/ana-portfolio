@@ -226,6 +226,7 @@ html, body {
   height: 100%;
   display: block;
   cursor: pointer;
+  touch-action: none;
 }
 
 /* Floating HUD Controls (Top Right) */
@@ -461,6 +462,8 @@ html, body {
   cursor: pointer;
   transition: all 0.15s ease;
   text-align: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .game-btn:hover {
@@ -469,9 +472,120 @@ html, body {
   border-color: var(--klein-blue);
 }
 
+.game-btn:active {
+  transform: scale(0.97);
+}
+
 .game-btn.active {
   background: var(--ink);
   color: #fff;
+}
+
+/* --- TARJETA DE BIENVENIDA / ONBOARDING --- */
+.welcome-guide-card {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 620px);
+  background: rgba(246, 246, 243, 0.97);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+  z-index: 25;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.welcome-guide-card.dismissed {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -15px);
+}
+
+.welcome-guide-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--klein-blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.welcome-guide-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.welcome-guide-desc {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.welcome-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.guide-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.73rem;
+  line-height: 1.4;
+  color: #222;
+}
+
+.guide-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--klein-blue);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.68rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-guide-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.welcome-guide-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.15rem;
+  color: var(--ink-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.welcome-guide-close:hover {
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 /* Project Gallery Preview in Sidebar */
@@ -868,5 +982,25 @@ html, body {
   .dossier-gallery-grid img.wide, .dossier-gallery-grid img {
     grid-column: span 1;
     height: 180px;
+  }
+
+  .welcome-guide-card {
+    top: 6px;
+    width: 94%;
+    padding: 12px 14px;
+  }
+
+  .welcome-guide-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .welcome-guide-desc {
+    font-size: 0.76rem;
+    margin-bottom: 8px;
+  }
+
+  .welcome-guide-title {
+    font-size: 1.12rem;
   }
 }

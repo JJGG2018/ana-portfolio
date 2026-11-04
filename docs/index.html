@@ -42,29 +42,32 @@
 
     <!-- Navegador de las 5 Plantas del Edificio (Desktop / Tablet) -->
     <nav class="floor-nav-strip" aria-label="Plantas del Edificio">
-      <button class="floor-pill active" onclick="selectFloor(0)">
+      <button class="floor-pill active" onclick="window.selectFloor(0)">
         <span class="pill-time">08:00</span>
         <span class="pill-name">04 Cafeliko</span>
       </button>
-      <button class="floor-pill" onclick="selectFloor(1)">
+      <button class="floor-pill" onclick="window.selectFloor(1)">
         <span class="pill-time">09:30</span>
         <span class="pill-name">00 Tacto</span>
       </button>
-      <button class="floor-pill" onclick="selectFloor(2)">
+      <button class="floor-pill" onclick="window.selectFloor(2)">
         <span class="pill-time">11:00</span>
         <span class="pill-name">01 Tom VR</span>
       </button>
-      <button class="floor-pill" onclick="selectFloor(3)">
+      <button class="floor-pill" onclick="window.selectFloor(3)">
         <span class="pill-time">16:00</span>
         <span class="pill-name">02 Focus</span>
       </button>
-      <button class="floor-pill" onclick="selectFloor(4)">
+      <button class="floor-pill" onclick="window.selectFloor(4)">
         <span class="pill-time">19:30</span>
         <span class="pill-name">03 Chile</span>
       </button>
     </nav>
 
     <div class="header-actions">
+      <button class="btn-editorial" onclick="window.openHelpModal()" title="¿Cómo funciona este portfolio interactivo?">
+        💡 ¿Cómo funciona?
+      </button>
       <button class="btn-editorial hide-mobile" onclick="window.openDossierModal('manifesto')">
         Sobre Ana
       </button>
@@ -82,6 +85,35 @@
     <!-- Visor del Edificio Seccionado en Tiempo Real -->
     <section class="diorama-viewport">
       <canvas id="dioramaCanvas"></canvas>
+
+      <!-- Tarjeta Inicial / Guía de Bienvenida: Concepto del Portfolio -->
+      <div class="welcome-guide-card" id="welcomeGuideCard">
+        <button class="welcome-guide-close" onclick="window.dismissWelcomeGuide()" title="Cerrar guía" aria-label="Cerrar">✕</button>
+        <div class="welcome-guide-badge">24 HORAS CON EL DISEÑO DE PRODUCTO · ANA GALILEA</div>
+        <h2 class="welcome-guide-title">¿En qué consiste este portfolio interactivo?</h2>
+        <p class="welcome-guide-desc">
+          Este edificio en sección arquitectónica representa <strong>24 horas de rutina diaria (de 08:00 a 19:30)</strong>. En cada planta, un reto cotidiano de las personas es resuelto mediante un objeto diseñado por Ana.
+        </p>
+        <div class="welcome-guide-grid">
+          <div class="guide-item">
+            <span class="guide-num">1</span>
+            <div><strong>Explora las plantas:</strong> Haz clic en el edificio o usa los botones horarios (08:00 a 19:30).</div>
+          </div>
+          <div class="guide-item">
+            <span class="guide-num">2</span>
+            <div><strong>Prueba el prototipo:</strong> Usa los controles del laboratorio a la derecha para accionar el diseño.</div>
+          </div>
+          <div class="guide-item">
+            <span class="guide-num">3</span>
+            <div><strong>Abre el Dossier:</strong> Pulsa «📋 Dossier» para ver fotos reales, bocetos de proceso y planos.</div>
+          </div>
+        </div>
+        <div class="welcome-guide-footer">
+          <button class="btn-editorial primary" onclick="window.dismissWelcomeGuide()">
+            ¡Comenzar recorrido (08:00 AM) →!
+          </button>
+        </div>
+      </div>
 
       <!-- Botones flotantes HUD Superior Derecho (Solo desktop) -->
       <div class="diorama-hud-controls hide-mobile">
