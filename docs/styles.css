@@ -168,6 +168,15 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 450px;
   position: relative;
+  transition: grid-template-columns 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.main-stage.diorama-wide {
+  grid-template-columns: 1fr 0px;
+}
+
+.main-stage.diorama-wide .lab-sidebar {
+  display: none;
 }
 
 /* --- LEFT: 2.5D ARCHITECTURAL DIORAMA CANVAS --- */
@@ -184,6 +193,42 @@ html, body {
   height: 100%;
   display: block;
   cursor: pointer;
+}
+
+/* Floating HUD Controls (Top Right) */
+.diorama-hud-controls {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.hud-pill-btn {
+  background: rgba(18, 19, 22, 0.82);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.hud-pill-btn:hover {
+  background: var(--klein-blue);
+  border-color: var(--klein-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 24, 255, 0.32);
 }
 
 /* Floating HUD inside Diorama */

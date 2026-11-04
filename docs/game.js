@@ -596,6 +596,51 @@ window.closeDossierModal = () => {
 };
 
 // ============================================================================
+// PANTALLA COMPLETA & MODO DIORAMA INMERSIVO
+// ============================================================================
+
+window.toggleFullscreen = () => {
+  if (!document.fullscreenElement) {
+    const el = document.documentElement;
+    if (el.requestFullscreen) {
+      el.requestFullscreen().catch((err) => console.warn("Fullscreen no permitido:", err));
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch((err) => console.warn("Exit fullscreen error:", err));
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+};
+
+window.toggleDioramaWide = () => {
+  const stage = document.querySelector(".main-stage");
+  if (!stage) return;
+  const isWide = stage.classList.toggle("diorama-wide");
+  const btn = document.getElementById("expandDioramaBtn");
+  if (btn) {
+    btn.innerHTML = isWide ? "⇱ Mostrar Panel Lateral" : "⇲ Expandir Diorama";
+  }
+  // Forzar redibujado inmediato del canvas adaptado al nuevo ancho
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, 50);
+};
+
+document.addEventListener("fullscreenchange", () => {
+  const isFs = !!document.fullscreenElement;
+  const fsBtn = document.getElementById("fullscreenBtn");
+  const hudFsBtn = document.getElementById("hudFsBtn");
+  const text = isFs ? "✕ Salir Pantalla Completa" : "⛶ Pantalla Completa";
+  if (fsBtn) fsBtn.textContent = text;
+  if (hudFsBtn) hudFsBtn.textContent = text;
+  window.dispatchEvent(new Event("resize"));
+});
+
+// ============================================================================
 // RENDERIZADOR 2.5D DEL EDIFICIO-DIORAMA EN CANVAS (60 FPS + RUST WASM)
 // ============================================================================
 
@@ -1308,6 +1353,8 @@ async function startApp() {
       wasm.move_player_to(wasm.get_player_x() + 0.12);
     } else if (ev.key === "Escape") {
       window.closeDossierModal();
+    } else if (ev.key === "f" || ev.key === "F") {
+      window.toggleFullscreen();
     }
   });
 

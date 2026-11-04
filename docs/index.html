@@ -29,6 +29,9 @@
     </nav>
 
     <div class="header-actions">
+      <button class="btn-editorial" id="fullscreenBtn" onclick="window.toggleFullscreen()" title="Alternar Pantalla Completa (F)">
+        ⛶ Pantalla Completa
+      </button>
       <button class="btn-editorial" onclick="window.openDossierModal('manifesto')">
         Sobre Ana / Contacto
       </button>
@@ -44,6 +47,16 @@
     <section class="diorama-viewport">
       <canvas id="dioramaCanvas"></canvas>
 
+      <!-- Botones flotantes HUD Superior Derecho -->
+      <div class="diorama-hud-controls">
+        <button class="hud-pill-btn" onclick="window.toggleDioramaWide()" id="expandDioramaBtn" title="Expandir vista completa del edificio">
+          ⇲ Expandir Diorama
+        </button>
+        <button class="hud-pill-btn" onclick="window.toggleFullscreen()" id="hudFsBtn" title="Pantalla Completa (F)">
+          ⛶ Pantalla Completa
+        </button>
+      </div>
+
       <!-- HUD Superior: Reloj de Rutina Cotidiana + Progreso -->
       <div class="diorama-hud-top">
         <div class="clock-card">
@@ -58,8 +71,9 @@
       <!-- HUD Inferior: Guía de Controles del Juego -->
       <div class="diorama-controls-hint">
         <span><span class="kbd">Clic en Planta</span> Caminar / Interactuar</span>
-        <span><span class="kbd">W</span> <span class="kbd">S</span> o <span class="kbd">↑</span> <span class="kbd">↓</span> Subir/Bajar Escalera</span>
+        <span><span class="kbd">W</span> <span class="kbd">S</span> o <span class="kbd">↑</span> <span class="kbd">↓</span> Cambiar Planta</span>
         <span><span class="kbd">A</span> <span class="kbd">D</span> Mover a Ana</span>
+        <span><span class="kbd">F</span> Pantalla Completa</span>
       </div>
     </section>
 
