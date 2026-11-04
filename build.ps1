@@ -54,6 +54,7 @@ Set-Content -Path "docs\wasm_bundle.js" -Value $bundleContent -Encoding UTF8
 Copy-Item "web\index.html" "docs\index.html" -Force
 Copy-Item "web\styles.css" "docs\styles.css" -Force
 Copy-Item "web\game.js" "docs\game.js" -Force
-Copy-Item "web\assets" "docs\assets" -Recurse -Force
+New-Item -ItemType Directory -Force -Path "docs\assets" | Out-Null
+Copy-Item "web\assets\*" "docs\assets\" -Recurse -Force
 
 Write-Host "==> ¡Compilación exitosa! web\ y docs\ actualizados ($($WasmBytes.Length) bytes) listos para GitHub Pages." -ForegroundColor Green
