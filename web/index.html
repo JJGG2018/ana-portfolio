@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ana Galilea · Diseño de Producto (Portfolio 2025)</title>
-  <meta name="description" content="Portfolio interactivo de diseño de producto de Ana Galilea (2025). 5 proyectos tangibles: Cafeliko, Tacto, Telefónica con Tom, Focus y Chile." />
+  <meta name="description" content="Portfolio editorial e interactivo de diseño de producto de Ana Galilea (IED Madrid, 2025). 5 proyectos tangibles: Cafeliko, Tacto, Telefónica con Tom, Focus y Chile." />
   <meta name="author" content="Ana Galilea" />
 
-  <!-- Favicon e Iconos para móvil / navegadores -->
+  <!-- Favicon e Iconos -->
   <link rel="icon" type="image/png" href="assets/portfolio/favicon.png" />
   <link rel="apple-touch-icon" href="assets/portfolio/apple-touch-icon.png" />
-  <meta name="theme-color" content="#e5e5e2" />
+  <meta name="theme-color" content="#0a0a0c" />
 
-  <!-- Open Graph para WhatsApp, Telegram, iMessage, LinkedIn, etc. -->
+  <!-- Open Graph para WhatsApp, Telegram, iMessage, LinkedIn -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://anagalilea.xyz/" />
   <meta property="og:title" content="Ana Galilea · Diseño de Producto (Portfolio 2025)" />
-  <meta property="og:description" content="Experiencia interactiva 24 Horas con Ana. 5 proyectos de diseño de producto, servicios y rituales cotidianos." />
+  <meta property="og:description" content="Diseño para inconformistas. 5 proyectos de diseño de producto, servicios y rituales cotidianos + Laboratorio Interactivo 24 Horas." />
   <meta property="og:image" content="https://anagalilea.xyz/assets/portfolio/og_preview.jpg" />
   <meta property="og:image:secure_url" content="https://anagalilea.xyz/assets/portfolio/og_preview.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -27,170 +27,669 @@
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Ana Galilea · Diseño de Producto" />
-  <meta name="twitter:description" content="Portfolio interactivo de diseño de producto (2025). 5 proyectos tangibles y experiencias significativas." />
+  <meta name="twitter:description" content="Portfolio de diseño de producto (2025). 5 proyectos tangibles y experiencias significativas." />
   <meta name="twitter:image" content="https://anagalilea.xyz/assets/portfolio/og_preview.jpg" />
+
+  <!-- Google Fonts: Syne (Display), Plus Jakarta Sans (Body), Instrument Serif (Editorial Italic), JetBrains Mono (Technical Meta) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- CABECERA EDITORIAL INTERACTIVA -->
-  <header class="top-bar">
-    <div class="brand-group" onclick="window.openDossierModal('manifesto')" title="Ver Manifiesto y Contacto de Ana Galilea">
-      <span class="brand-name">Ana Galilea</span>
-      <span class="brand-tag">Diseño de Producto · 2025</span>
-    </div>
 
-    <!-- Navegador de las 5 Plantas del Edificio (Desktop / Tablet) -->
-    <nav class="floor-nav-strip" aria-label="Plantas del Edificio">
-      <button class="floor-pill active" onclick="window.selectFloor(0)">
-        <span class="pill-time">08:00</span>
-        <span class="pill-name">04 Cafeliko</span>
-      </button>
-      <button class="floor-pill" onclick="window.selectFloor(1)">
-        <span class="pill-time">09:30</span>
-        <span class="pill-name">00 Tacto</span>
-      </button>
-      <button class="floor-pill" onclick="window.selectFloor(2)">
-        <span class="pill-time">11:00</span>
-        <span class="pill-name">01 Tom VR</span>
-      </button>
-      <button class="floor-pill" onclick="window.selectFloor(3)">
-        <span class="pill-time">16:00</span>
-        <span class="pill-name">02 Focus</span>
-      </button>
-      <button class="floor-pill" onclick="window.selectFloor(4)">
-        <span class="pill-time">19:30</span>
-        <span class="pill-name">03 Chile</span>
-      </button>
+  <!-- CURSOR PERSONALIZADO (Desktop: DRAG / VER) -->
+  <div class="custom-cursor" id="customCursor" aria-hidden="true">VER</div>
+
+  <!-- CORTINA DE APERTURA CINÉTICA (Inspirada en Garaje de Ideas con botón SKIP) -->
+  <div class="preloader has-grain" id="preloader" role="dialog" aria-label="Introducción del portfolio">
+    <div class="preloader-top">
+      <span>ANA GALILEA · MADRID</span>
+      <button class="preloader-skip" id="preloaderSkipBtn" type="button">(SKIP)</button>
+    </div>
+    <div class="preloader-stage">
+      <div class="preloader-word" id="preloaderWord" aria-live="polite"></div>
+    </div>
+    <div class="preloader-bottom">
+      <span>DISEÑO PARA INCONFORMISTAS®</span>
+      <div class="preloader-progress-track">
+        <div class="preloader-progress-fill" id="preloaderProgress"></div>
+      </div>
+      <span>PORTFOLIO 2025</span>
+    </div>
+  </div>
+
+  <!-- CABECERA EDITORIAL STICKY + BOTÓN "+" -->
+  <header class="site-header" id="siteHeader">
+    <a href="#inicio" class="brand-lockup" aria-label="Inicio — Ana Galilea">
+      <span class="brand-wordmark">
+        <span class="brand-dot" aria-hidden="true"></span>
+        Ana Galilea
+      </span>
+      <span class="brand-claim">Diseño para inconformistas®</span>
+    </a>
+
+    <nav class="header-nav" aria-label="Navegación principal">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#rutinas">24 Horas</a>
+      <a href="#enfoque">Enfoque</a>
+      <a href="#laboratorio">Laboratorio 24h</a>
+      <a href="#contacto">Contacto</a>
     </nav>
 
-    <div class="header-actions">
-      <button class="btn-editorial" onclick="window.openHelpModal()" title="¿Cómo funciona este portfolio interactivo?">
-        💡 ¿Cómo funciona?
-      </button>
-      <button class="btn-editorial hide-mobile" onclick="window.openDossierModal('manifesto')">
+    <div class="header-right">
+      <button class="header-cta" id="headerManifestoBtn" type="button" onclick="window.openDossierModal('manifesto')">
         Sobre Ana
       </button>
-      <button class="btn-editorial primary" onclick="window.openDossierModal('project')">
-        📋 Dossier
-      </button>
-      <button class="btn-icon" id="fullscreenBtn" onclick="window.toggleFullscreen()" title="Alternar Pantalla Completa (F)" aria-label="Pantalla Completa">
-        <svg class="icon-fs" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      <button
+        class="menu-plus-btn"
+        id="menuToggleBtn"
+        type="button"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="navOverlay"
+      >
+        +
       </button>
     </div>
   </header>
 
-  <!-- ESCENARIO PRINCIPAL: DIORAMA 2.5D (IZQUIERDA) + LABORATORIO JUGABLE (DERECHA) -->
-  <main class="main-stage">
-    <!-- Visor del Edificio Seccionado en Tiempo Real -->
-    <section class="diorama-viewport">
-      <canvas id="dioramaCanvas"></canvas>
+  <!-- MENÚ FULLSCREEN EDITORIAL (Toggle "+") -->
+  <div class="nav-overlay has-grain" id="navOverlay" aria-hidden="true">
+    <div class="container nav-overlay-grid">
+      <ul class="nav-big-list">
+        <li>
+          <a class="nav-big-link" href="#inicio" onclick="window.closeNavOverlay()">
+            <span class="nav-big-title">Inicio</span>
+            <span class="nav-big-num">[01]</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-big-link" href="#proyectos" onclick="window.closeNavOverlay()">
+            <span class="nav-big-title">Proyectos</span>
+            <span class="nav-big-num">[02 · 05 CASOS]</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-big-link" href="#rutinas" onclick="window.closeNavOverlay()">
+            <span class="nav-big-title">24 Horas · Rutinas</span>
+            <span class="nav-big-num">[03]</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-big-link" href="#enfoque" onclick="window.closeNavOverlay()">
+            <span class="nav-big-title">Enfoque</span>
+            <span class="nav-big-num">[04]</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-big-link" href="#laboratorio" onclick="window.closeNavOverlay()">
+            <span class="nav-big-title">Laboratorio 24h</span>
+            <span class="nav-big-num">[05 · WASM 2.5D]</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-big-link" href="#contacto" onclick="window.closeNavOverlay()">
+            <span class="nav-big-title">¡Hablemos!</span>
+            <span class="nav-big-num">[06]</span>
+          </a>
+        </li>
+      </ul>
 
-      <!-- Tarjeta Inicial / Guía de Bienvenida: Concepto del Portfolio -->
-      <div class="welcome-guide-card" id="welcomeGuideCard">
-        <button class="welcome-guide-close" onclick="window.dismissWelcomeGuide()" title="Cerrar guía" aria-label="Cerrar">✕</button>
-        <div class="welcome-guide-badge">24 HORAS CON EL DISEÑO DE PRODUCTO · ANA GALILEA</div>
-        <h2 class="welcome-guide-title">¿En qué consiste este portfolio interactivo?</h2>
-        <p class="welcome-guide-desc">
-          Este edificio en sección arquitectónica representa <strong>24 horas de rutina diaria (de 08:00 a 19:30)</strong>. En cada planta, un reto cotidiano de las personas es resuelto mediante un objeto diseñado por Ana.
-        </p>
-        <div class="welcome-guide-grid">
-          <div class="guide-item">
-            <span class="guide-num">1</span>
-            <div><strong>Explora las plantas:</strong> Haz clic en el edificio o usa los botones horarios (08:00 a 19:30).</div>
-          </div>
-          <div class="guide-item">
-            <span class="guide-num">2</span>
-            <div><strong>Prueba el prototipo:</strong> Usa los controles del laboratorio a la derecha para accionar el diseño.</div>
-          </div>
-          <div class="guide-item">
-            <span class="guide-num">3</span>
-            <div><strong>Abre el Dossier:</strong> Pulsa «📋 Dossier» para ver fotos reales, bocetos de proceso y planos.</div>
-          </div>
+      <div class="nav-overlay-meta">
+        <div class="nav-meta-block">
+          <h4>[ Contacto directo ]</h4>
+          <a href="mailto:agalilea.design@gmail.com">agalilea.design@gmail.com</a>
+          <a href="tel:+34638277531">+34 638 277 531</a>
         </div>
-        <div class="welcome-guide-footer">
-          <button class="btn-editorial primary" onclick="window.dismissWelcomeGuide()">
-            ¡Comenzar recorrido (08:00 AM) →!
+        <div class="nav-meta-block">
+          <h4>[ Redes &amp; Disciplinas ]</h4>
+          <a href="https://instagram.com/anagalilea.design" target="_blank" rel="noopener noreferrer">Instagram · @anagalilea.design ↗</a>
+          <button type="button" onclick="window.closeNavOverlay(); window.openDisciplinesModal();" style="color:#4da3ff; margin-top:6px; font-family:var(--font-mono); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em;">
+            Ver índice de disciplinas →
           </button>
         </div>
-      </div>
-
-      <!-- Botones flotantes HUD Superior Derecho (Solo desktop) -->
-      <div class="diorama-hud-controls hide-mobile">
-        <button class="hud-pill-btn" onclick="window.toggleDioramaWide()" id="expandDioramaBtn" title="Expandir vista completa del edificio">
-          ⇲ Expandir Diorama
-        </button>
-      </div>
-
-      <!-- HUD Superior: Reloj de Rutina Cotidiana + Progreso -->
-      <div class="diorama-hud-top">
-        <div class="clock-card">
-          <span class="clock-time" id="hudClockTime">08:00</span>
-          <span class="clock-routine" id="hudClockRoutine">La Cocina</span>
-        </div>
-        <div class="progress-card" id="globalProgressText">
-          0/5 Hecho
+        <div class="nav-meta-block">
+          <h4>[ Formación ]</h4>
+          <p>Diseño de Producto · IED Madrid<br />Producto, Servicio, Packaging &amp; Experiencia</p>
         </div>
       </div>
+    </div>
 
-      <!-- HUD Inferior: Guía de Controles del Juego (Solo desktop) -->
-      <div class="diorama-controls-hint hide-mobile">
-        <span><span class="kbd">Clic</span> Caminar</span>
-        <span><span class="kbd">W</span> <span class="kbd">S</span> Planta</span>
-        <span><span class="kbd">A</span> <span class="kbd">D</span> Mover</span>
-        <span><span class="kbd">F</span> Pantalla Completa</span>
+    <div class="container nav-overlay-footer">
+      <span>DISEÑO DE PRODUCTO · MADRID, ESPAÑA</span>
+      <span id="madridLiveClock">MADRID · --:--</span>
+      <span>©2025 ANA GALILEA</span>
+    </div>
+  </div>
+
+  <main>
+    <!-- ====================================================================
+         SECTION 1 · HERO ("Así es como lo hacemos")
+         ==================================================================== -->
+    <section class="hero-section" id="inicio">
+      <div class="container">
+        <div class="hero-kicker-row">
+          <span class="eyebrow-tag accent">[ PORTFOLIO DE DISEÑO DE PRODUCTO · IED MADRID · 2025 ]</span>
+          <span class="eyebrow-tag">PRODUCTO · SERVICIO · PACKAGING · VR</span>
+        </div>
+
+        <h1 class="hero-headline">
+          Diseño de producto que entra en tu <span class="serif-italic">día&nbsp;a&nbsp;día.</span>
+        </h1>
+
+        <div class="hero-grid">
+          <div class="hero-copy-col">
+            <p class="hero-sublead">
+              Soy Ana Galilea, diseñadora de producto. Transformo pequeñas rutinas en experiencias tangibles y significativas.
+            </p>
+            <p class="hero-description">
+              Parto de una mirada centrada en las personas y trabajo de forma transversal durante todo el proceso: desde la investigación etnográfica y la conceptualización hasta el objeto físico, el packaging, la interfaz y el servicio que lo sostiene.
+            </p>
+            <div class="hero-cta-row">
+              <a href="#proyectos" class="btn-pill primary" id="heroProjectsCta">
+                Explorar proyectos ↓
+              </a>
+              <a href="#laboratorio" class="btn-pill" id="heroLabCta">
+                Jugar Laboratorio 24h →
+              </a>
+            </div>
+            <div class="hero-metrics">
+              <div>
+                <div class="hero-metric-val">05</div>
+                <div class="hero-metric-lbl">Casos tangibles</div>
+              </div>
+              <div>
+                <div class="hero-metric-val">24h</div>
+                <div class="hero-metric-lbl">Rutina cotidiana</div>
+              </div>
+              <div>
+                <div class="hero-metric-val">E2E</div>
+                <div class="hero-metric-lbl">Research → Producto</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editorial Visual Reel con Pause / Play (Referencia Garaje de Ideas) -->
+          <div class="hero-reel" id="heroReel" data-cursor="VER">
+            <div class="hero-reel-slides" id="heroReelSlides">
+              <!-- Poblado dinámicamente desde game.js -->
+            </div>
+            <div class="hero-reel-scrim"></div>
+            <div class="hero-reel-top">
+              <span class="reel-counter" id="reelCounter">01 / 05 · 08:00 AM</span>
+              <button class="reel-toggle-btn" id="reelToggleBtn" type="button" aria-pressed="false">
+                Pause
+              </button>
+            </div>
+            <div class="hero-reel-bottom">
+              <div class="reel-caption-group">
+                <div class="reel-caption-cat" id="reelCaptionCat">Producto · Packaging · Servicio</div>
+                <div class="reel-caption-title" id="reelCaptionTitle">04. Cafeliko</div>
+              </div>
+              <div class="reel-dots" id="reelDots" role="tablist" aria-label="Proyectos destacados"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Panel Lateral: Mini-Juego del Proyecto Activo + Galería Extraída del PDF -->
-    <aside class="lab-sidebar">
-      <div class="lab-header">
-        <div class="lab-breadcrumbs">
-          <span class="lab-project-num" id="labNum">04 · Producto, packaging, servicio</span>
-          <span id="labCode">//Cafeliko</span>
+    <!-- ====================================================================
+         SECTION 2 · MANIFESTO BAND ("UNA MIRADA INCONFORMISTA")
+         ==================================================================== -->
+    <section class="manifesto-section has-grain" id="manifiesto">
+      <div class="container">
+        <div class="manifesto-header">
+          <span class="eyebrow-tag on-dark">( UNA MIRADA INCONFORMISTA )</span>
+          <span class="eyebrow-tag on-dark">[ MANIFIESTO · ANA GALILEA ]</span>
         </div>
-        <h1 class="lab-title" id="labTitle">Cafeliko</h1>
-        <p class="lab-question" id="labQuestion">¿Se podrían crear grados de cafeína?</p>
+
+        <blockquote class="manifesto-quote" id="manifestoQuote">
+          «Diseñar es entrar en la vida de las personas con respeto y responsabilidad: observar sus rutinas, entender sus necesidades y transformar pequeños gestos cotidianos en experiencias significativas.»
+        </blockquote>
+
+        <div class="manifesto-footer-row">
+          <p class="manifesto-secondary">
+            «Me interesa cómo las personas interactúan entre sí y con su entorno, y cómo el diseño puede intervenir para enriquecer esas interacciones. No me detengo en el producto en sí: me importa todo lo que sucede alrededor, el servicio que lo sostiene y la forma en que se integra en la vida cotidiana.»
+          </p>
+          <button class="btn-pill on-dark" type="button" onclick="window.openDossierModal('manifesto')">
+            Sobre Ana &amp; Contacto →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 3 · PROYECTOS DESTACADOS (Switcher + Grid Editorial)
+         ==================================================================== -->
+    <section class="projects-section" id="proyectos">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow-tag accent">( PROYECTOS SELECCIONADOS )</span>
+            <h2 class="section-title">Últimos <span class="serif-accent">proyectos</span></h2>
+          </div>
+          <span class="eyebrow-tag">[ 00 — 04 · 5 CASOS DE ESTUDIO ]</span>
+        </div>
+
+        <!-- Selector interactivo tipo Garaje ("Now showing: project X of 5") -->
+        <div class="project-switcher reveal" id="projectSwitcher">
+          <div class="switcher-list">
+            <div>
+              <div class="switcher-label-row">
+                <span class="eyebrow-tag">EXPLORACIÓN RÁPIDA</span>
+                <span class="eyebrow-tag accent">HOVER / CLIC</span>
+              </div>
+              <ul class="switcher-items" id="switcherItems" role="tablist">
+                <!-- Poblado dinámicamente -->
+              </ul>
+            </div>
+            <div class="switcher-status" id="switcherStatus" aria-live="polite">
+              Mostrando: Cafeliko, proyecto 1 de 5
+            </div>
+          </div>
+
+          <div class="switcher-preview">
+            <div class="switcher-img-frame" id="switcherImgFrame" data-cursor="VER">
+              <img id="switcherImg" src="assets/portfolio/cafeliko_kitchen.jpg" alt="Vista previa del proyecto seleccionado" />
+              <span class="switcher-stat-chip" id="switcherStatChip">55% / 80%</span>
+            </div>
+            <div class="switcher-preview-body">
+              <p class="switcher-question" id="switcherQuestion">¿Se podrían crear grados de cafeína?</p>
+              <p class="switcher-summary" id="switcherSummary"></p>
+              <div class="switcher-actions">
+                <button class="btn-pill primary sm" id="switcherOpenCaseBtn" type="button">
+                  Ver caso completo →
+                </button>
+                <button class="btn-pill sm" id="switcherJumpLabBtn" type="button">
+                  Probar en Laboratorio 24h ↓
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuadrícula editorial completa con los 5 casos -->
+        <div class="case-grid" id="caseGrid">
+          <!-- Poblado dinámicamente desde game.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 4 · 24 HORAS · TIRA HORIZONTAL ARRASTRABLE (DRAG)
+         ==================================================================== -->
+    <section class="routines-section" id="rutinas">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow-tag">[ RECORRIDO COTIDIANO · 08:00 — 19:30 ]</span>
+            <h2 class="section-title">24 Horas de <span class="serif-accent">diseño</span></h2>
+          </div>
+          <div class="routines-controls">
+            <button class="btn-pill sm" id="openDisciplinesBtn" type="button" onclick="window.openDisciplinesModal()">
+              Ver disciplinas +
+            </button>
+            <button class="drag-arrow-btn" id="dragPrevBtn" type="button" aria-label="Desplazar rutinas a la izquierda">←</button>
+            <button class="drag-arrow-btn" id="dragNextBtn" type="button" aria-label="Desplazar rutinas a la derecha">→</button>
+          </div>
+        </div>
       </div>
 
-      <div class="lab-stat-banner">
-        <div class="stat-big" id="labStatBig">55%</div>
-        <div class="stat-desc" id="labStatDesc">
-          de usuarios reportan: «No bebo café por la tarde porque no me deja dormir».
+      <div class="drag-strip-wrapper" id="dragStripWrapper" data-cursor="DRAG">
+        <div class="drag-track" id="routinesDragTrack">
+          <!-- Poblado dinámicamente -->
         </div>
       </div>
+    </section>
 
-      <!-- Controles Interactivos del Mini-Juego en Rust/WASM -->
-      <div class="minigame-box" id="minigameContent"></div>
-
-      <!-- Galería de Renders Reales Extraídos del Portfolio de Ana -->
-      <div class="sidebar-gallery">
-        <div class="sidebar-section-label">Láminas y Prototipos del Proyecto</div>
-        <div class="hero-preview-card" onclick="window.openDossierModal('project')" style="cursor:pointer;" title="Haz clic para ampliar el Dossier Técnico">
-          <img id="sidebarHeroImg" src="assets/portfolio/cafeliko_kitchen.jpg" alt="Vista del proyecto" />
+    <!-- ====================================================================
+         SECTION 5 · ENFOQUE / METODOLOGÍA ([01] — [04])
+         ==================================================================== -->
+    <section class="approach-section" id="enfoque">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow-tag accent">( ENFOQUE DE TRABAJO )</span>
+            <h2 class="section-title">Así es como <span class="serif-accent">diseño</span></h2>
+          </div>
+          <button class="btn-pill sm" type="button" onclick="window.openDisciplinesModal()">
+            Capacidades y herramientas →
+          </button>
         </div>
-        <p id="sidebarHeroCaption" style="font-size:0.74rem; color:var(--ink-muted); margin-bottom:10px;"></p>
 
-        <div class="thumb-strip" id="sidebarThumbStrip"></div>
+        <div class="approach-grid reveal">
+          <article class="approach-cell">
+            <span class="approach-idx">[01]</span>
+            <h3 class="approach-title">Empatía en el centro</h3>
+            <p class="approach-desc">
+              Cada proyecto nace de observar fricciones reales en la vida cotidiana — desde la saturación digital hasta la soledad en un primer día de oficina o los residuos del café diario.
+            </p>
+          </article>
+          <article class="approach-cell">
+            <span class="approach-idx">[02]</span>
+            <h3 class="approach-title">Más allá del objeto</h3>
+            <p class="approach-desc">
+              El producto físico nunca vive aislado: diseño el packaging, el mobiliario urbano, el recorrido espacial y la narrativa que convierten un uso puntual en un hábito.
+            </p>
+          </article>
+          <article class="approach-cell">
+            <span class="approach-idx">[03]</span>
+            <h3 class="approach-title">Del insight al prototipo</h3>
+            <p class="approach-desc">
+              Iteración rápida entre boceto estructural, maqueta volumétrica, diseño editorial y validación funcional para que cada pieza sea fabricable, honesta y duradera.
+            </p>
+          </article>
+          <article class="approach-cell">
+            <span class="approach-idx">[04]</span>
+            <h3 class="approach-title">Impacto con criterio</h3>
+            <p class="approach-desc">
+              Materiales biodegradables, dispersión ecológica, bienestar digital y reducción de fricción: soluciones con propósito que cuidan a las personas y a su entorno.
+            </p>
+          </article>
+        </div>
 
-        <p class="project-summary-text" id="labSummary"></p>
-
-        <button class="btn-editorial primary" style="width:100%; padding:10px;" onclick="window.openDossierModal('project')">
-          Ver Investigación · Proceso · Desarrollo · Producto →
-        </button>
+        <!-- Tríptico de proceso y oficio -->
+        <div class="craft-triptych reveal">
+          <div class="craft-tile" data-cursor="VER" onclick="window.openLightbox('assets/portfolio/focus_sketches.jpg', 'Bocetos de mecanismo Pop-Up y estudio geométrico — 02. Focus')">
+            <img src="assets/portfolio/focus_sketches.jpg" alt="Bocetos técnicos y mecanismos Pop-Up de Focus" />
+            <span class="craft-caption">01 · Boceto &amp; Mecanismo · Focus</span>
+          </div>
+          <div class="craft-tile" data-cursor="VER" onclick="window.openLightbox('assets/portfolio/chile_exploded.jpg', 'Vista explosionada en 3 capas: Refugios biodegradables + Voronoi + Tierra fértil — 03. Chile')">
+            <img src="assets/portfolio/chile_exploded.jpg" alt="Vista explosionada de los 3 estratos de Chile" />
+            <span class="craft-caption">02 · Arquitectura en Capas · Chile</span>
+          </div>
+          <div class="craft-tile" data-cursor="VER" onclick="window.openLightbox('assets/portfolio/tacto_cover.jpg', 'Edición impresa en papel prensa — 00. Tacto (TFG IED Madrid)')">
+            <img src="assets/portfolio/tacto_cover.jpg" alt="Portada impresa del periódico físico Tacto" />
+            <span class="craft-caption">03 · Diseño Editorial · Tacto</span>
+          </div>
+        </div>
       </div>
-    </aside>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 6 · LABORATORIO INTERACTIVO 24H (RUST + WASM 2.5D DIORAMA)
+         ==================================================================== -->
+    <section class="lab-section has-grain" id="laboratorio">
+      <div class="container">
+        <div class="lab-intro-bar reveal">
+          <div>
+            <span class="eyebrow-tag on-dark">[ EXPERIENCIA INTERACTIVA · RUST + WEBASSEMBLY ]</span>
+            <h2 class="section-title" style="color:var(--ink-on-dark); margin-top:8px;">
+              Laboratorio <span class="serif-accent" style="color:#4da3ff;">24 Horas</span>
+            </h2>
+            <p class="lab-intro-copy">
+              Explora los 5 proyectos dentro de un edificio interactivo en sección arquitectónica (08:00 a 19:30). Selecciona una planta, camina por las estancias y prueba cada prototipo en tiempo real.
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn-pill on-dark sm" id="labHelpBtn" type="button" onclick="window.openHelpModal()">
+              ¿Cómo funciona?
+            </button>
+            <button class="btn-pill on-dark sm" id="labDossierBtn" type="button" onclick="window.openDossierModal('project')">
+              Abrir Dossier Activo →
+            </button>
+          </div>
+        </div>
+
+        <div class="lab-shell">
+          <!-- Barra de selección de las 5 plantas -->
+          <div class="lab-toolbar">
+            <nav class="floor-nav-strip" aria-label="Plantas del Edificio Interactivo">
+              <button class="floor-pill active" type="button" onclick="window.selectFloor(0)">
+                <span class="pill-time">08:00</span>
+                <span class="pill-name">04 Cafeliko</span>
+              </button>
+              <button class="floor-pill" type="button" onclick="window.selectFloor(1)">
+                <span class="pill-time">09:30</span>
+                <span class="pill-name">00 Tacto</span>
+              </button>
+              <button class="floor-pill" type="button" onclick="window.selectFloor(2)">
+                <span class="pill-time">11:00</span>
+                <span class="pill-name">01 Tom VR</span>
+              </button>
+              <button class="floor-pill" type="button" onclick="window.selectFloor(3)">
+                <span class="pill-time">16:00</span>
+                <span class="pill-name">02 Focus</span>
+              </button>
+              <button class="floor-pill" type="button" onclick="window.selectFloor(4)">
+                <span class="pill-time">19:30</span>
+                <span class="pill-name">03 Chile</span>
+              </button>
+            </nav>
+
+            <div class="lab-toolbar-actions">
+              <button class="btn-editorial hide-mobile" id="expandDioramaBtn" type="button" onclick="window.toggleDioramaWide()">
+                ⇲ Expandir Diorama
+              </button>
+              <button class="btn-editorial primary" type="button" onclick="window.openDossierModal('project')">
+                Ver Dossier →
+              </button>
+            </div>
+          </div>
+
+          <!-- Escenario Principal: Diorama 2.5D + Panel de Mini-Juegos -->
+          <div class="main-stage" id="labMainStage">
+            <div class="diorama-viewport" id="dioramaViewport" tabindex="0" aria-label="Diorama arquitectónico 2.5D interactivo">
+              <canvas id="dioramaCanvas"></canvas>
+
+              <div class="diorama-hud-top">
+                <div class="clock-card">
+                  <span class="clock-time" id="hudClockTime">08:00</span>
+                  <span class="clock-routine" id="hudClockRoutine">La Cocina</span>
+                </div>
+                <div class="progress-card" id="globalProgressText">
+                  0/5 Hecho
+                </div>
+              </div>
+
+              <div class="diorama-controls-hint hide-mobile">
+                <span><span class="kbd">Clic</span> Caminar e interactuar</span>
+                <span><span class="kbd">W</span> <span class="kbd">S</span> Planta</span>
+                <span><span class="kbd">A</span> <span class="kbd">D</span> Mover</span>
+              </div>
+            </div>
+
+            <aside class="lab-sidebar" aria-label="Panel del prototipo activo">
+              <div class="lab-header">
+                <div class="lab-breadcrumbs">
+                  <span class="lab-project-num" id="labNum">04 · Producto, packaging, servicio</span>
+                  <span id="labCode">//Cafeliko</span>
+                </div>
+                <h3 class="lab-title" id="labTitle">Cafeliko</h3>
+                <p class="lab-question" id="labQuestion">¿Se podrían crear grados de cafeína?</p>
+              </div>
+
+              <div class="lab-stat-banner">
+                <div class="stat-big" id="labStatBig">55% / 80%</div>
+                <div class="stat-desc" id="labStatDesc">
+                  55% no bebe café por la tarde porque le quita el sueño · 80% considera la cafetera italiana un proceso sucio e incómodo.
+                </div>
+              </div>
+
+              <div class="minigame-box" id="minigameContent"></div>
+
+              <div class="sidebar-gallery">
+                <div class="sidebar-section-label">Láminas y prototipos</div>
+                <div class="hero-preview-card" onclick="window.openDossierModal('project')" title="Abrir Dossier Completo">
+                  <img id="sidebarHeroImg" src="assets/portfolio/cafeliko_kitchen.jpg" alt="Vista del proyecto" />
+                </div>
+                <p id="sidebarHeroCaption" style="font-size:0.72rem; color:var(--ink-muted); margin-bottom:8px;"></p>
+                <div class="thumb-strip" id="sidebarThumbStrip"></div>
+                <p class="project-summary-text" id="labSummary"></p>
+                <button class="btn-pill primary sm" style="width:100%;" type="button" onclick="window.openDossierModal('project')">
+                  Investigación · Proceso · Desarrollo · Producto →
+                </button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- MODAL DOSSIER TÉCNICO / MANIFIESTO (MODO RECLUTADOR / ESTUDIO) -->
-  <div class="modal-backdrop" id="dossierModalBackdrop" onclick="if(event.target===this) window.closeDossierModal()">
+  <!-- ====================================================================
+       SECTION 7 · MONUMENTAL FOOTER ("¡Hablemos!" — Garaje de Ideas Style)
+       ==================================================================== -->
+  <footer class="site-footer" id="contacto">
+    <div class="container">
+      <div class="footer-cta-block reveal">
+        <div>
+          <span class="eyebrow-tag accent">[ CONECTEMOS · DISPONIBLE PARA NUEVOS RETOS ]</span>
+          <h2 class="footer-giant">¡Hablemos<span>!</span></h2>
+        </div>
+        <div class="footer-cta-sub">
+          <p>
+            ¿Buscas una diseñadora de producto con visión estratégica, rigor en el proceso y sensibilidad por el detalle cotidiano?
+          </p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn-pill primary" href="mailto:agalilea.design@gmail.com">
+              Escribir a Ana →
+            </a>
+            <button class="btn-pill" type="button" onclick="window.openDossierModal('manifesto')">
+              Ver Manifiesto
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>[ Contacto ]</h4>
+          <ul>
+            <li><a href="mailto:agalilea.design@gmail.com">agalilea.design@gmail.com</a></li>
+            <li><a href="tel:+34638277531">+34 638 277 531</a></li>
+            <li>Madrid, España · IED Madrid</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>[ Proyectos ]</h4>
+          <ul>
+            <li><button type="button" onclick="window.openProjectCase(0)">04 · Cafeliko</button></li>
+            <li><button type="button" onclick="window.openProjectCase(1)">00 · Tacto (TFG)</button></li>
+            <li><button type="button" onclick="window.openProjectCase(2)">01 · Telefónica con Tom</button></li>
+            <li><button type="button" onclick="window.openProjectCase(3)">02 · Focus</button></li>
+            <li><button type="button" onclick="window.openProjectCase(4)">03 · Chile</button></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>[ Redes ]</h4>
+          <ul>
+            <li><a href="https://instagram.com/anagalilea.design" target="_blank" rel="noopener noreferrer">Instagram (@anagalilea.design) ↗</a></li>
+            <li><a href="#laboratorio">Laboratorio Interactivo 24h</a></li>
+            <li><button type="button" onclick="window.openDisciplinesModal()">Índice de Disciplinas</button></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>[ Portfolio ]</h4>
+          <ul>
+            <li>Diseño de Producto</li>
+            <li>Service Design &amp; Research</li>
+            <li>Packaging &amp; Editorial</li>
+            <li>Experiencias Tangibles &amp; VR</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>©2025 ANA GALILEA · TODOS LOS DERECHOS RESERVADOS</span>
+        <span>DISEÑO PARA INCONFORMISTAS®</span>
+        <a href="#inicio" class="back-top-btn">↑ Subir</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+       MODAL DOSSIER TÉCNICO / MANIFIESTO / GUÍA
+       ==================================================================== -->
+  <div class="modal-backdrop" id="dossierModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="dossierModalTitle" onclick="if(event.target===this) window.closeDossierModal()">
     <div class="dossier-modal">
       <div class="dossier-top">
-        <strong id="dossierModalTitle" style="font-size:0.95rem;">Dossier Técnico del Proyecto</strong>
-        <button class="btn-editorial" onclick="window.closeDossierModal()">✕ Cerrar (Esc)</button>
+        <strong class="dossier-top-title" id="dossierModalTitle">Dossier Técnico del Proyecto</strong>
+        <button class="btn-editorial" id="closeDossierBtn" type="button" onclick="window.closeDossierModal()">✕ Cerrar (Esc)</button>
       </div>
       <div class="dossier-body" id="dossierModalContent"></div>
     </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL ÍNDICE DE DISCIPLINAS (Inspirado en "INDUSTRIES" de Garaje)
+       ==================================================================== -->
+  <div class="modal-backdrop" id="disciplinesModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="disciplinesModalTitle" onclick="if(event.target===this) window.closeDisciplinesModal()">
+    <div class="dossier-modal dark-modal has-grain">
+      <div class="dossier-top">
+        <strong class="dossier-top-title" id="disciplinesModalTitle">[ DISCIPLINAS &amp; CAPACIDADES · ANA GALILEA ]</strong>
+        <button class="btn-pill on-dark sm" type="button" onclick="window.closeDisciplinesModal()">✕ Cerrar</button>
+      </div>
+      <div class="dossier-body single-col">
+        <div>
+          <span class="eyebrow-tag on-dark">( CAPACIDADES TRANSVERSALES )</span>
+          <h2 class="section-title" style="color:var(--ink-on-dark); margin-top:10px; max-width:22ch;">
+            Producto físico, servicio y narrativa en un mismo sistema.
+          </h2>
+          <div class="disciplines-list">
+            <div class="discipline-group">
+              <div class="discipline-group-head">
+                <h3>Diseño de Producto</h3>
+                <span class="discipline-count">[05]</span>
+              </div>
+              <div class="discipline-tags">
+                <span class="discipline-tag">Cafeliko</span>
+                <span class="discipline-tag">Tacto</span>
+                <span class="discipline-tag">Focus</span>
+                <span class="discipline-tag">Chile</span>
+                <span class="discipline-tag">Prototipado físico</span>
+                <span class="discipline-tag">Ergonomía &amp; Mecanismos</span>
+              </div>
+            </div>
+            <div class="discipline-group">
+              <div class="discipline-group-head">
+                <h3>Investigación &amp; Estrategia</h3>
+                <span class="discipline-count">[05]</span>
+              </div>
+              <div class="discipline-tags">
+                <span class="discipline-tag">Design Research</span>
+                <span class="discipline-tag">Observación etnográfica</span>
+                <span class="discipline-tag">Insights cuantitativos</span>
+                <span class="discipline-tag">Definición de propuesta de valor</span>
+                <span class="discipline-tag">User Journeys</span>
+              </div>
+            </div>
+            <div class="discipline-group">
+              <div class="discipline-group-head">
+                <h3>Servicio &amp; Experiencia</h3>
+                <span class="discipline-count">[04]</span>
+              </div>
+              <div class="discipline-tags">
+                <span class="discipline-tag">Onboarding VR (Telefónica)</span>
+                <span class="discipline-tag">Gamificación</span>
+                <span class="discipline-tag">Sistemas de dispensación</span>
+                <span class="discipline-tag">Bienestar digital</span>
+              </div>
+            </div>
+            <div class="discipline-group">
+              <div class="discipline-group-head">
+                <h3>Packaging, Editorial &amp; Sostenibilidad</h3>
+                <span class="discipline-count">[04]</span>
+              </div>
+              <div class="discipline-tags">
+                <span class="discipline-tag">Packaging sostenible</span>
+                <span class="discipline-tag">Diseño editorial en papel</span>
+                <span class="discipline-tag">Materiales biodegradables</span>
+                <span class="discipline-tag">Infraestructura verde urbana</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX DE AMPLIACIÓN DE IMÁGENES -->
+  <div class="lightbox-backdrop" id="lightboxBackdrop" onclick="window.closeLightbox()" role="dialog" aria-modal="true" aria-label="Vista ampliada de imagen">
+    <img id="lightboxImg" src="" alt="" />
+    <p class="lightbox-caption" id="lightboxCaption"></p>
   </div>
 
   <script src="wasm_bundle.js"></script>
